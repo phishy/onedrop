@@ -1,0 +1,50 @@
+<ion-view view-title="Storage">
+  <ion-content>
+    <div class="list">
+      <ul class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Storage Type
+            </div>
+          <select ng-model="data.adapter">
+            <option value="local">Local</option>
+            <option value="s3">Amazon S3</option>
+          </select>
+        </label>
+
+        <div ng-if="data.adapter == 'local'">
+          <label class="item item-input">
+            <span class="input-label">Path</span>
+            You can change the library mount path in docker-compose.yml
+          </label>
+        </div>
+
+        <div ng-if="data.adapter == 's3'">
+          <label class="item item-input">
+            <span class="input-label">Hosting URL</span>
+            <input ng-model="data.s3.url" type="text">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Region</span>
+            <input ng-model="data.s3.region" type="text">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Bucket</span>
+            <input ng-model="data.s3.bucket" type="text">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">IAM ID</span>
+            <input ng-model="data.s3.accessKeyId" type="text">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">IAM Key</span>
+            <input ng-model="data.s3.secretAccessKey" type="text">
+          </label>
+        </div>
+
+        <button ng-click="save()" class="button button-full button-positive">
+          Save
+        </button>
+      </div>
+    </ion-content>
+  </ion-view>

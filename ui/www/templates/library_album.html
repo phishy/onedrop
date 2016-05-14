@@ -1,0 +1,27 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <form ng-submit="search()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input ng-model="data.query" type="search" placeholder="Search">
+        </label>
+        <button type="submit" class="button button-small">
+          Search</button>
+          <!-- <button class="button button-clear">
+          Cancel
+        </button> -->
+      </div>
+    </form>
+
+    <div class="list">
+      <div class="item item-divider">
+        Tracks
+      </div>
+      <div ng-click="play(track)" ng-repeat="track in tracks" class="item">
+        <h2>{{track.name}}</h2>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

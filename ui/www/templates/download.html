@@ -1,0 +1,39 @@
+<ion-view view-title="Download">
+  <ion-content>
+    <div class="list">
+      <ul class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Downloader
+            </div>
+          <select ng-model="data.adapter">
+            <option value="youtube_scraper">YouTube</option>
+            <option value="youtube">YouTube API</option>
+            <option value="gmusic">Google Music</option>
+          </select>
+        </label>
+
+        <div ng-if="data.adapter == 'youtube'">
+          <label class="item item-input">
+            <span class="input-label">API Key</span>
+            <input ng-model="data.youtube.api_key" type="text">
+          </label>
+        </div>
+
+        <!-- <div ng-if="data.adapter == 'gmusic'">
+          <label class="item item-input">
+            <span class="input-label">Email</span>
+            <input ng-model="data.gmusic.email" type="text">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Password</span>
+            <input ng-model="data.gmusic.password" type="text">
+          </label>
+        </div> -->
+
+        <button ng-click="save()" class="button button-full button-positive">
+          Save
+        </button>
+      </div>
+    </ion-content>
+  </ion-view>

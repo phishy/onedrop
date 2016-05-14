@@ -1,0 +1,60 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <form ng-submit="search()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input ng-model="data.query" type="search" placeholder="Search">
+        </label>
+        <button type="submit" class="button button-small">
+          Search</button>
+          <!-- <button class="button button-clear">
+          Cancel
+        </button> -->
+      </div>
+    </form>
+
+    <div class="card" ng-show="!data.query">
+      <div class="item item-text-wrap">
+        Go ahead and search for a song, we dare you.
+      </div>
+    </div>
+
+    <div ng-show="data.query">
+
+      <div ng-show="!data.albums" class="list">
+        <div class="item item-divider">
+          Artists
+        </div>
+        <div ui-sref="app.artist({ artist: artist.id})" ng-repeat="artist in data.artists" class="item item-thumbnail-left">
+          <img ng-src="{{artist.images[0].url}}">
+          <h2>{{artist.name}}</h2>
+        </div>
+        <div class="item item-divider">
+          Tracks
+        </div>
+        <div ng-click="play(track)" ng-repeat="track in data.tracks" class="item item-thumbnail-left">
+          <img ng-src="{{track.album.images[0].url}}">
+          <h2>{{track.name}}</h2>
+          <p>{{track.artist.name}}</p>
+          <!-- <div class="pull-right" style="width:50px"><i ng-click="openPopover($event)" class="fa fa-ellipsis-v" aria-hidden="true"></i></div> -->
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>
+
+<script id="my-popover.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-content>
+      <div class="list">
+        <a class="item" ng-click="addToPlaylist()">Play next</a>
+        <a class="item" ng-click="addToPlaylist()">Add to queue</a>
+        <a class="item" ng-click="addToPlaylist()">Add to playlist</a>
+        <a class="item" ng-click="addToPlaylist()">Add to queue</a>
+        <a class="item" ng-click="addToPlaylist()">Go to artist</a>
+      </div>
+    </ion-content>
+  </ion-popover-view>
+</script>

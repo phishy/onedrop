@@ -1,0 +1,15 @@
+{
+  "name": "onedrop-storage-s3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.72.0",
+    "s3": "^4.4.0"
+  }
+}

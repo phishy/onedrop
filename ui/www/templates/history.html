@@ -1,0 +1,44 @@
+<ion-view view-title="History">
+  <ion-content>
+    <form ng-submit="search()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input ng-model="data.query" type="search" placeholder="Search">
+        </label>
+        <button type="submit" class="button button-small">
+          Search</button>
+          <!-- <button class="button button-clear">
+          Cancel
+        </button> -->
+      </div>
+    </form>
+    <div class="card" ng-show="!plays.length">
+      <div class="item item-text-wrap">
+        You have not played any songs. Try searching for a song.
+      </div>
+    </div>
+    <ion-list ng-controller="HistoryListCtrl"
+          show-delete="shouldShowDelete"
+          show-reorder="shouldShowReorder"
+          can-swipe="listCanSwipe">
+      <ion-item ng-repeat="track in plays" ng-click="play(track)">
+
+        <img ng-src="{{item.img}}">
+        {{ track.artist.name}} - {{ track.album.name}} - {{ track.name }}
+        <!-- <ion-option-button class="button-positive"
+                           ng-click="share(item)">
+          Share
+        </ion-option-button> -->
+        <ion-option-button class="button-assertive"
+                           ng-click="delete(track)">
+          Delete
+        </ion-option-button>
+        <ion-delete-button class="ion-minus-circled"
+                           ng-click="items.splice($index, 1)">
+        </ion-delete-button>
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

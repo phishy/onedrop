@@ -1,0 +1,3 @@
+[submodule "gmusicproxy"]
+	path = gmusicproxy
+	url = https://github.com/diraimondo/gmusicproxy.git
