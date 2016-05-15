@@ -13,7 +13,9 @@
 
  youtube_scraper.config = {
    path: '/tmp',
-   ffmpeg: '/var/onedrop/api/ffmpeg'
+   ffmpeg: (function(){
+     return (process.env.FORK) ? __dirname + '/../../ffmpeg_osx' : '/../../ffmpeg';
+   })()
  };
 
 module.exports = {

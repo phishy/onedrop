@@ -1,4 +1,10 @@
-var appUrl = window.location.origin + ':1337';
+var isDesktopApp = (window.location.protocol == 'file:') ? true : false;
+
+if (isDesktopApp) {
+  var appUrl = 'http://localhost:1337';
+} else {
+  var appUrl = window.location.origin + ':1337';
+}
 
 angular.module('starter.controllers', [])
 
@@ -25,7 +31,8 @@ angular.module('starter.controllers', [])
 })
 
 .service('Config', function(){
-  this.isDesktopApp = false;
+  this.isDesktopApp = isDesktopApp;
+  this.desktopMusicUrl = window.location.pathname.replace('/index.html', '');
   this.isAppConfigurable = true;
   this.isIphone = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   this.api = {
@@ -90,16 +97,11 @@ angular.module('starter.controllers', [])
     $http.post(Config.api.url + '/tracks/play', angular.toJson(track), {
       headers: { Authorization: 'Bearer ' + store.get('user').token }
     }).then(function(results){
-      Audio.player.src = results.data;
+      var url = (Config.isDesktopApp) ? Config.desktopMusicUrl + results.data : results.data;
+      Audio.player.src = url;
       Audio.player.load();
       Audio.player.play();
       cfpLoadingBar.complete();
-
-      // if (Config.isIphone) {
-        // setTimeout(function(){
-        //   $scope.next();
-        // }, track.duration);
-      // }
     });
   }
 

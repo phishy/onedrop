@@ -57,7 +57,9 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
   someMongodbServer: {
-    adapter: 'sails-mongo',
+    adapter: (function(){
+      return (process.env.FORK) ? 'sails-nedb' : 'sails-mongo';
+    })(),
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER, //optional
