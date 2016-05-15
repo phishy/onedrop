@@ -77,7 +77,9 @@ angular.module('starter.controllers', [])
 .service('Config', function(){
   this.isDesktopApp = isDesktopApp;
   this.desktopMusicUrl = window.location.pathname.replace('/index.html', '');
-  this.isAppConfigurable = true;
+  this.isAppConfigurable = (function(){
+    return (window.location.origin == 'http://onedrop.io') ? false : true;
+  })();
   this.isIphone = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   this.api = {
     url: appUrl
@@ -116,9 +118,9 @@ angular.module('starter.controllers', [])
       headers: { Authorization: 'Bearer ' + store.get('user').token }
     }).then(function(results){
       var url = (Config.isDesktopApp) ? Config.desktopMusicUrl + results.data : results.data;
-      Audio.player.src = url;
-      Audio.player.load();
-      Audio.player.play();
+      Audio.Player.src = url;
+      Audio.Player.load();
+      Audio.Player.play();
       cfpLoadingBar.complete();
     });
   }
