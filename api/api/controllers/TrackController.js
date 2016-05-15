@@ -14,7 +14,7 @@
  youtube_scraper.config = {
    path: '/tmp',
    ffmpeg: (function(){
-     return (process.env.FORK) ? __dirname + '/../../ffmpeg_osx' : '/../../ffmpeg';
+     return (process.env.FORK) ? __dirname + '/../../../../ffmpeg_osx' : '/../../ffmpeg';
    })()
  };
 
