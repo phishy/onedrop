@@ -46,7 +46,7 @@ module.exports = {
               break;
             case 'gmusic':
               downloader = gmusic;
-              downloader.config = setting[setting.adapter];
+              // downloader.config = setting[setting.adapter];
               break;
           }
         }

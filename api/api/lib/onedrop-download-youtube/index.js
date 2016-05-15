@@ -38,7 +38,7 @@ module.exports = {
 
     var self = this;
 
-    var query = track.artist.name + ' ' + track.name + ' ' + track.album.name;
+    var query = track.artist.name + ' ' + track.album.name + ' ' + track.name;
 
     console.log(query);
     search(query, { maxResult: this.config.maxResults, key: this.config.key }, function(err, results) {

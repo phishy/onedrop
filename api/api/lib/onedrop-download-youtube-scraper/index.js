@@ -8,7 +8,7 @@ module.exports = {
   },
   download: function(track, cb) {
     var self = this;
-    var query = encodeURIComponent(track.artist.name + ' ' + track.name + ' ' + track.album.name);
+    var query = encodeURIComponent(track.artist.name + ' ' + track.album.name + ' ' + track.name);
     xray('https://www.youtube.com/results?search_query=' + query, 'div.yt-lockup-content > h3', [{
       title: 'a',
       link: 'a@href'

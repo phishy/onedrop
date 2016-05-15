@@ -5,7 +5,7 @@ var fs = require('fs');
 
 module.exports = {
   config: {
-    path: ''
+    path: '/tmp'
   },
   download: function(track, cb) {
     var self = this;

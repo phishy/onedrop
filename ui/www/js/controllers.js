@@ -3,11 +3,55 @@ var appUrl = window.location.origin + ':1337';
 angular.module('starter.controllers', [])
 
 .service('Audio', function($http, Config, store){
-  this.currentIndex = 0;
-  this.playlist = [];
-  this.player = document.createElement('audio');
 
   var self = this;
+
+  this.Playlist = {
+    _index: 0,
+    _playlist: [],
+    _name: '',
+    nameByTrack: function(track) {
+      return track.artist.name + ' - ' + track.album.name;
+    },
+    name: function(val) {
+      if (val) {
+        this._name = val;
+      } else {
+        return this._name;
+      }
+    },
+    clear: function() {
+      this._index = 0;
+      this._name = '';
+      this._playlist = [];
+    },
+    add: function(track) {
+      this._playlist.push(track);
+    },
+    addAuto: function(track) {
+      if (this._playlist.length && this._name == this.nameByTrack(track)) {
+        this.add(track);
+      } else {
+        this.clear();
+        this.name(this.nameByTrack(track));
+        this.add(track);
+      }
+    },
+    remove: function(track) {
+
+    },
+    current: function() {
+      return this._playlist[this._index];
+    },
+    next: function() {
+      return this._playlist[++this._index];
+    },
+    previous: function() {
+      return this._playlist[--this._index];
+    }
+  };
+
+  this.Player = document.createElement('audio');
 
   this.getTrackUrl = function(track) {
     return $http.post(Config.api.url + '/tracks/play', angular.toJson(track), {
@@ -42,6 +86,53 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+  $scope.Config = Config;
+
+  Audio.Player.addEventListener('ended', function(){
+    var track = Audio.Playlist.next();
+    $scope.play(track);
+  });
+
+  Audio.Player.addEventListener('playing', function(){
+  	$scope.track = Audio.Playlist.current();
+  });
+
+  $scope.play = function(track, index) {
+    Audio.Player.play();
+    if (index) {
+      Audio.Playlist._index = index;
+    }
+    // $scope.track = track;
+    // Audio.player.pause();
+    cfpLoadingBar.start();
+    $http.post(Config.api.url + '/tracks/play', angular.toJson(track), {
+      headers: { Authorization: 'Bearer ' + store.get('user').token }
+    }).then(function(results){
+      Audio.Player.src = results.data;
+      Audio.Player.load();
+      Audio.Player.play();
+      cfpLoadingBar.complete();
+    });
+  }
+
+  $scope.unpause = function() {
+  	Audio.Player.play();
+  }
+
+  $scope.pause = function() {
+    Audio.Player.pause();
+  }
+
+  $scope.previous = function() {
+    var track = Audio.Playlist.previous();
+    $scope.play(track);
+  }
+
+  $scope.next = function() {
+    var track = Audio.Playlist.next();
+    $scope.play(track);
+  }
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -61,67 +152,6 @@ angular.module('starter.controllers', [])
   $scope.login = function() {
     $scope.modal.show();
   };
-
-  Audio.player.addEventListener('ended', function(){
-    Audio.currentIndex++;
-    var track = Audio.playlist[Audio.currentIndex];
-    $scope.play(track);
-    // Audio.player.src = track.url;
-    // Audio.player.load();
-    // Audio.player.play();
-    // $scope.track = track;
-  });
-
-  // Audio.player.addEventListener('playing', function(){
-  // 	$scope.track = Audio.playlist[Audio.currentIndex];
-  // });
-  //
-  //
-  $scope.Config = Config;
-
-  $scope.play = function(track, index) {
-    Audio.player.play();
-    if (index) {
-      Audio.currentIndex = index;
-    }
-    $scope.track = track;
-    Audio.player.pause();
-    cfpLoadingBar.start();
-    $http.post(Config.api.url + '/tracks/play', angular.toJson(track), {
-      headers: { Authorization: 'Bearer ' + store.get('user').token }
-    }).then(function(results){
-      Audio.player.src = results.data;
-      Audio.player.load();
-      Audio.player.play();
-      cfpLoadingBar.complete();
-
-      // if (Config.isIphone) {
-        // setTimeout(function(){
-        //   $scope.next();
-        // }, track.duration);
-      // }
-    });
-  }
-
-  $scope.unpause = function() {
-  	Audio.player.play();
-  }
-
-  $scope.pause = function() {
-    Audio.player.pause();
-  }
-
-  $scope.previous = function() {
-    Audio.currentIndex--;
-    var track = Audio.playlist[Audio.currentIndex];
-    $scope.play(track);
-  }
-
-  $scope.next = function() {
-    Audio.currentIndex++;
-    var track = Audio.playlist[Audio.currentIndex];
-    $scope.play(track);
-  }
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
@@ -309,15 +339,6 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('NewCtrl', function($scope, $stateParams, $http, Audio) {
-
-  $http.get('https://api.spotify.com/v1/browse/new-releases').then(function(results){
-    $scope.data.new = results.data;
-    debugger;
-  });
-
-})
-
 .controller('ArtistCtrl', function($scope, $state, $stateParams, $http, Audio, Meta) {
 
   $scope.data = {};
@@ -348,11 +369,8 @@ angular.module('starter.controllers', [])
   if ($stateParams.album) {
     Meta.getAlbum($stateParams.album, function(res){
       $scope.data.album = res;
-      Audio.playlist = [];
-      Audio.currentIndex = 0;
       $scope.data.album.tracks.forEach(function(track){
-        Audio.playlist.push(track);
-        // Audio.addTrack(track);
+        Audio.Playlist.addAuto(track);
       });
     });
   }
