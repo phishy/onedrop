@@ -2,11 +2,14 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 
 module.exports = {
+  config: {
+
+  },
   dir:  function(track) {
-    return process.env.MUSIC + '/' + track.artist.name + '/' + track.album.name;
+    return __dirname + '/../../../../ui/www/music/' + track.artist.name + '/' + track.album.name;
   },
   path: function(track) {
-    return process.env.MUSIC + '/' + track.artist.name + '/' + track.album.name + '/' + track.track_number + ' ' + track.name + '.mp3';
+    return __dirname + '/../../../../ui/www/music/' + track.artist.name + '/' + track.album.name + '/' + track.track_number + ' ' + track.name + '.mp3';
   },
   url: function(track) {
     return '/music/' + track.artist.name + '/' + track.album.name + '/' + track.track_number + ' ' + track.name + '.mp3';
