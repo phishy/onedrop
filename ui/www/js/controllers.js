@@ -107,12 +107,10 @@ angular.module('starter.controllers', [])
   });
 
   $scope.play = function(track, index) {
-    Audio.Player.play();
+    Audio.Player.pause();
     if (index) {
       Audio.Playlist._index = index;
     }
-    // $scope.track = track;
-    // Audio.player.pause();
     cfpLoadingBar.start();
     $http.post(Config.api.url + '/tracks/play', angular.toJson(track), {
       headers: { Authorization: 'Bearer ' + store.get('user').token }
