@@ -5,6 +5,7 @@ module.exports = {
   config: {
     url: '',
     bucket: '',
+    region: '',
     accessKeyId: '',
     secretAccessKey: ''
   },
