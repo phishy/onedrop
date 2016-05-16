@@ -102,11 +102,12 @@ angular.module('starter.controllers', [])
     if (track) $scope.play(track);
   });
 
-  Audio.Player.addEventListener('playing', function(){
-  	$scope.track = Audio.Playlist.current();
-  });
+  // Audio.Player.addEventListener('playing', function(){
+  // 	$scope.track = Audio.Playlist.current();
+  // });
 
   $scope.play = function(track, index) {
+    $scope.track = track;
     Audio.Player.pause();
     if (index) {
       Audio.Playlist._index = index;
