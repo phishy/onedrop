@@ -108,6 +108,7 @@ angular.module('starter.controllers', [])
 
   $scope.play = function(track, index) {
     $scope.track = track;
+    Audio.Player.play();
     Audio.Player.pause();
     if (index) {
       Audio.Playlist._index = index;
