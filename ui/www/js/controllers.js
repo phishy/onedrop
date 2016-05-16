@@ -99,7 +99,7 @@ angular.module('starter.controllers', [])
 
   Audio.Player.addEventListener('ended', function(){
     var track = Audio.Playlist.next();
-    $scope.play(track);
+    if (track) $scope.play(track);
   });
 
   Audio.Player.addEventListener('playing', function(){
