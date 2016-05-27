@@ -10,6 +10,7 @@
  var gmusic = require('../lib/onedrop-download-gmusic');
  var youtube = require('../lib/onedrop-download-youtube');
  var youtube_scraper = require('../lib/onedrop-download-youtube-scraper');
+ var Promise = require('bluebird');
 
  youtube_scraper.config = {
    path: '/tmp',
@@ -28,33 +29,71 @@ module.exports = {
     var track = req.body;
     console.log(track);
 
-    var storage = local;
-    var downloader = youtube_scraper;
+    Promise.all([
+      Setting.findOne({ type: 'storage', adapter: 's3', user: req.token }),
+      Setting.findOne({ type: 'global-storage', adapter: 's3' }),
+      Setting.findOne({ type: 'download', user: req.token }),
+      Setting.findOne({ type: 'global-download' })
+    ]).then(function(all){
 
-    Setting.findOne({ type: 'storage', adapter: 's3', user: req.token }).then(function(setting){
-      if (setting) {
-        storage = s3;
-        storage.config = setting.s3;
+      var config = {
+        storage: all[0],
+        globalStorage: all[1],
+        download: all[2],
+        globalDownload: all[3]
+      };
+
+      if (config.globalDownload) {
+        downloader = chooseDownloadAdapter(config.globalDownload);
+      } else {
+        downloader = chooseDownloadAdapter(config.download);
       }
-      Setting.findOne({ type: 'download', user: req.token }).then(function(setting){
-        if (setting) {
-          switch (setting.adapter) {
-            case 'youtube':
-              downloader = youtube;
-              downloader.config = setting[setting.adapter];
-              break;
-            case 'youtube_scraper':
-              downloader = youtube_scraper;
-              break;
-            case 'gmusic':
-              downloader = gmusic;
-              // downloader.config = setting[setting.adapter];
-              break;
-          }
-        }
-        proceed();
-      });
+
+      if (config.globalStorage) {
+        storage = chooseStorageAdapter(config.globalDownload);
+      } else {
+        storage = chooseStorageAdapter(config.download);
+      }
+
+      proceed();
+
     });
+
+    function chooseStorageAdapter(setting) {
+      var adapter;
+      if (setting) {
+        switch (setting.adapter) {
+          case 's3':
+            adapter = s3;
+            adapter.config = setting[setting.adapter];
+            break;
+          default:
+            adapter = local;
+        }
+      }
+      return adapter;
+    }
+
+    function chooseDownloadAdapter(setting) {
+      var adapter;
+      if (setting) {
+        switch (setting.adapter) {
+          case 'youtube':
+            adapter = youtube;
+            adapter.config = setting[setting.adapter];
+            break;
+          case 'youtube_scraper':
+            adapter = youtube_scraper;
+            break;
+          case 'gmusic':
+            adapter = gmusic;
+            break;
+          default:
+            adapter = youtube_scraper;
+        }
+        return adapter;
+      }
+    }
 
     function proceed() {
 
