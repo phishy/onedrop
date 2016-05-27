@@ -192,37 +192,41 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('SettingsCtrl', function($scope, $stateParams, $http, Audio) {
-
+.controller('SettingsCtrl', function($scope, $stateParams, $http, store, Audio) {
+  $scope.user = store.get('user');
 })
 
-.controller('DownloadCtrl', function($scope, $stateParams, $state, $http, Config, Restangular) {
+.controller('GlobalDownloadCtrl', function($scope, $stateParams, $state, Restangular, Audio, Config) {
 
   $scope.data = {
-    download: {
-      type: 'download'
-    }
-  };
+    type: 'global-download',
+    adapter: 'youtube_scraper',
+    youtube: {
 
-  $http.get(Config.api.url + '/settings?type=download').then(function(res){
-    if (res.data.length) {
-      $scope.data.download = res.data[0];
+    }
+  }
+
+  Restangular.all('settings').getList({ type: 'global-download' }).then(function(res){
+    if (res.length) {
+      $scope.data = res[0];
     }
   });
 
   $scope.save = function() {
-    if ('id' in $scope.data.download) {
-      $http.put(Config.api.url + '/settings/' + $scope.data.download.id, $scope.data.download).then(function(res){
+    if ('id' in $scope.data) {
+      $scope.data.put().then(function(){
         $state.go('app.settings');
       });
     } else {
-      $http.post(Config.api.url + '/settings', $scope.data.download).then(function(res){
+      Restangular.all('settings').post($scope.data).then(function(res){
         $state.go('app.settings');
       });
     }
   }
 
 })
+
+
 
 .controller('DownloadCtrl', function($scope, $stateParams, $state, Restangular, Audio, Config) {
 
@@ -241,6 +245,49 @@ angular.module('starter.controllers', [])
   });
 
   $scope.save = function() {
+    if ('id' in $scope.data) {
+      $scope.data.put().then(function(){
+        $state.go('app.settings');
+      });
+    } else {
+      Restangular.all('settings').post($scope.data).then(function(res){
+        $state.go('app.settings');
+      });
+    }
+  }
+
+})
+
+.controller('GlobalStorageCtrl', function($scope, $stateParams, $state, Restangular, Audio, Config) {
+
+  $scope.data = {
+    type: 'global-storage',
+    adapter: 'local',
+    local: {
+      type: 'local',
+      path: '/music'
+    },
+    s3: {
+      type: 's3',
+      url: '',
+      region: '',
+      bucket: '',
+      accessKeyId: '',
+      secretAccessKey: ''
+    }
+  };
+
+  Restangular.all('settings').getList({ type: 'global-storage' }).then(function(res){
+    if (res.length) {
+      $scope.data = res[0];
+    }
+  });
+
+  $scope.save = function() {
+    // strip trailing slash
+    if ($scope.data.s3.url[$scope.data.s3.url.length-1] == '/') {
+      $scope.data.s3.url = $scope.data.s3.url.substring(0, name.length-1);
+    }
     if ('id' in $scope.data) {
       $scope.data.put().then(function(){
         $state.go('app.settings');

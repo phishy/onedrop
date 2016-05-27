@@ -123,12 +123,32 @@ angular.module('starter', [
     }
   })
 
+  .state('app.global_storage', {
+    url: '/global_storage',
+    views: {
+      'menuContent': {
+        controller: 'GlobalStorageCtrl',
+        templateUrl: 'templates/storage.html'
+      }
+    }
+  })
+
   .state('app.storage', {
     url: '/storage',
     views: {
       'menuContent': {
         controller: 'StorageCtrl',
         templateUrl: 'templates/storage.html'
+      }
+    }
+  })
+
+  .state('app.global_download', {
+    url: '/global_download',
+    views: {
+      'menuContent': {
+        controller: 'GlobalDownloadCtrl',
+        templateUrl: 'templates/download.html'
       }
     }
   })

@@ -41,6 +41,22 @@
         Download
       </a>
 
+      <div ng-show="user.user.admin">
+        <div class="item item-divider">
+          Global Settings
+        </div>
+
+        <a ng-show="Config.isAppConfigurable" class="item item-icon-left" href="#/app/global_storage">
+          <i class="icon ion-android-cloud"></i>
+          Storage
+        </a>
+
+        <a ng-show="Config.isAppConfigurable" class="item item-icon-left" href="#/app/global_download">
+          <i class="icon ion-arrow-down-a"></i>
+          Download
+        </a>
+      </div>
+
     </div>
   </ion-content>
 </ion-view>
