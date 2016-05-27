@@ -1,9 +1,7 @@
 var isDesktopApp = (window.location.protocol == 'file:') ? true : false;
 
 if (isDesktopApp) {
-  var appUrl = 'http://localhost:1337';
-} else {
-  var appUrl = window.location.origin + ':1337';
+  Onedrop.appUrl = 'http://localhost:1337';
 }
 
 angular.module('starter.controllers', [])
@@ -77,12 +75,10 @@ angular.module('starter.controllers', [])
 .service('Config', function(){
   this.isDesktopApp = isDesktopApp;
   this.desktopMusicUrl = window.location.pathname.replace('/index.html', '');
-  this.isAppConfigurable = (function(){
-    return (window.location.origin == 'http://onedrop.io') ? false : true;
-  })();
+  this.isAppConfigurable = Onedrop.isAppConfigurable;
   this.isIphone = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   this.api = {
-    url: appUrl
+    url: Onedrop.appUrl
   }
 })
 
