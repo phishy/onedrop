@@ -1,0 +1,38 @@
+<ion-view view-title="Album">
+  <ion-content>
+    <form ng-submit="search()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input ng-model="data.query" type="search" placeholder="Search">
+        </label>
+        <button type="submit" class="button button-small">
+          Search</button>
+          <!-- <button class="button button-clear">
+          Cancel
+        </button> -->
+      </div>
+    </form>
+
+    <img ng-src="{{data.album.thumb}}" width="100%">
+
+    <div class="item">
+      <h1>{{data.album.artist.name}}</h2>
+      <h4>{{data.album.name}}</h4>
+    </div>
+
+        <!--
+    <div class="card">
+      <div class="item item-text-wrap">
+      </div>
+    </div> -->
+
+
+    <div ng-show="data.album.tracks" class="list">
+      <div ng-click="clickPlay(track, $index)" ng-repeat="track in data.album.tracks" class="item">
+        <h2>{{track.name}}</h2>
+      </div>
+    </div>
+
+  </ion-content>
+</ionicView>

@@ -1,0 +1,27 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <form ng-submit="search()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input ng-model="data.query" type="search" placeholder="Search">
+        </label>
+        <button type="submit" class="button button-small">
+          Search</button>
+          <!-- <button class="button button-clear">
+          Cancel
+        </button> -->
+      </div>
+    </form>
+
+    <div class="list">
+      <div class="item item-divider">
+        Albums
+      </div>
+      <a ui-sref="app.library_album({ artist: artist, album: album.name })" ng-repeat="album in albums" class="item" href="#">
+        <h2>{{album.name}}</h2>
+      </a>
+
+    </div>
+  </ion-content>
+</ion-view>

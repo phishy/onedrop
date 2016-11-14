@@ -1,0 +1,19 @@
+<ion-view view-title="Edit User">
+  <ion-content>
+    <div class="list">
+
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input ng-model="data.email" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input ng-model="data.password" type="text">
+      </label>
+
+      <button ng-click="save()" class="button button-full button-positive">
+        Save
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

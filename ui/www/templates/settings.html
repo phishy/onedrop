@@ -1,0 +1,29 @@
+<ion-view view-title="Settings">
+  <ion-content>
+    <div class="list">
+
+      <a ng-show="config.isConfigurable" class="item item-icon-left" href="#/app/storage">
+        <i class="icon ion-android-cloud"></i>
+        Storage
+      </a>
+
+      <div ng-show="auth.user.admin">
+        <div class="item item-divider">
+          Global Settings
+        </div>
+
+        <a class="item item-icon-left" href="#/app/global_storage">
+          <i class="icon ion-android-cloud"></i>
+          Storage
+        </a>
+
+        <a class="item item-icon-left" href="#/app/users">
+          <i class="icon ion-person-stalker"></i>
+          Users
+        </a>
+
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

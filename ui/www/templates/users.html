@@ -1,0 +1,12 @@
+<ion-view view-title="Users">
+  <ion-content>
+    <div class="list">
+      <a class="item" href="#/app/users/add">
+        Add Account
+      </a>
+      <a ng-repeat="user in users" class="item" ui-sref="app.users_edit({ id: user.id })">
+        {{user.email}}
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

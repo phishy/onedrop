@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+docker-compose.yml
+*.mp3
+ui/www/lib/
+ui/plugins/
+ui/resources/ios
+ui/resources/android

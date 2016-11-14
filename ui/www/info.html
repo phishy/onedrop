@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+  <style>
+  body {
+    overflow: hidden;
+    color: white;
+    background: #210074; /* Old browsers */
+    background: -moz-linear-gradient(top,  #210074 0%, #9400d8 100%, #207cca 100%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #210074 0%,#9400d8 100%,#207cca 100%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #210074 0%,#9400d8 100%,#207cca 100%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#210074', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+  }
+  @media (max-width: 1000px) {
+    body {
+      background-size: cover;
+      background-image: url('img/splash-zoom.jpg');
+    }
+  }
+  @media (max-width: 1000px) {
+    #head {
+      opacity: .9;
+    }
+  }
+  #main {
+    margin-top: 20px;
+    height: 100%;
+  }
+  #logo {
+    margin-right: 10px;
+  }
+  #logo-text {
+    display: inline;
+    color: white
+  }
+  section p {
+    color: #DDDDDD;
+  }
+  section i {
+    margin-right: 8px;
+  }
+  p {
+    font-size: 12px;
+  }
+  #head {
+    background-color: #6a00b4;
+    padding: 10px;
+    padding-left: 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  </style>
+  <script
+  src="js/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script>
+  $(function(){
+
+    localStorage.setItem('user', JSON.stringify({
+      "user": { "email": "admin@example.com",
+        "admin": false,
+        "password": "$2a$10$QW3KJjMWKiRyHrLCSkjkqeZaM6MBzwl1gGXohStEVKkWUY3VUmtgK",
+        "id": "5817d8859ede62e4d117696c"
+      },
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODE3ZDg4NTllZGU2MmU0ZDExNzY5NmMiLCJpYXQiOjE0Nzg3MTEyMjV9.9OWjuj1RTGTt7pwRw_zCYR2RYJlg2Mx4hw9yH-6LDo8"
+    }));
+
+    localStorage.setItem('redirect', '/#/app/artist/G.%20Love%20and%20Special%20Sauce/album/iguana:149');
+
+    window.isAndroid = navigator.userAgent.match(/Android/i);
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      window.isMobile = true;
+      $('#app').remove();
+      $('#desktop-downloads').hide();
+      $('#mobile-downloads').show();
+      $('#logo').show();
+    } else {
+      window.isMobile = false;
+    }
+    if (isAndroid && isMobile) {
+      $('#android-download-block').show();
+    }
+    if (isAndroid || !isMobile) {
+      $('#android-download').show();
+    }
+  });
+  </script>
+</head>
+<body>
+  <div id="main" class="container-fluid">
+    <div class="row">
+      <div id="app" class="col-md-5" style="width:430px">
+        <iframe src="http://onedrop.io" style="border:1px solid black" frameborder="0" width="400" height="680"></iframe>
+      </div>
+      <div id="info" class="col-md-7">
+
+        <section id="head">
+          <img id="logo" src="icon.png" width="50px" style="display:none">
+          <h1 id="logo-text">onedrop</h1>
+          <h4 style="color:#bd98f2">a open source cross-platform HTML5 Audio App</h4>
+          <h5>for <i class="fa fa-html5" aria-hidden="true"></i> browsers, <i class="fa fa-apple" aria-hidden="true"></i> iOS, MacOS, <i class="fa fa-android" aria-hidden="true"></i> Android, <i class="fa fa-windows" aria-hidden="true"></i> Windows, and <i class="fa fa-linux" aria-hidden="true"></i> Linux</h5>
+          <!-- <hr style="border-top: 1px solid #8a6cd6"> -->
+        </section>
+
+        <div id="desktop-downloads">
+          <a href="https://s3.amazonaws.com/onedropmusic/dist/onedrop-macos.zip" class="btn btn-primary"><i class="fa fa-apple" aria-hidden="true"></i> Download for MacOS</a>
+          <a href="https://s3.amazonaws.com/onedropmusic/dist/onedrop-win32-x64.zip" class="btn btn-primary"><i class="fa fa-windows" aria-hidden="true"></i> Download for Windows</a>
+          <a id="android-download" style="display:none" href="https://s3.amazonaws.com/onedropmusic/dist/onedrop.apk" class="btn btn-primary"><i class="fa fa-android" aria-hidden="true"></i> Download for Android</a>
+        </div>
+        <div id="mobile-downloads" style="display:none">
+          <a href="http://onedrop.io" class="btn btn-primary btn-lg btn-block">Try It Now</a>
+        </div>
+        <div id="android-download-block" style="display:none">
+          <a href="https://s3.amazonaws.com/onedropmusic/dist/onedrop.apk" class="btn btn-primary btn-lg btn-block">Download Android APK</a>
+        </div>
+
+        <section>
+          <h3><i class="fa fa-magic" aria-hidden="true"></i>A Digital Experiment</h3>
+          <p>
+            We wanted to push the limits of HTML5 and amazing technologies such as Electron, Cordova, Ionic, and Docker in order to create one codebase to run on all platforms. This has been amazingly fun and we hope to benefit the community from our efforts.
+          </p>
+        </section>
+
+        <section>
+          <h3><i class="fa fa-music" aria-hidden="true"></i> Free Music</h3>
+          <p>
+            There's a ton of public domain music on the Internet. There are a ton of players for them as well. We just wouldn't be a decent music player if we didn't make it so you could search and collect it all in one place.
+          </p>
+        </section>
+
+        <section>
+          <h3><i class="fa fa-database" aria-hidden="true"></i> Built In Cloud Storage</h3>
+          <p>
+            Easily configure the app the save all your music to your favorite cloud storage provider or to local disk. You can configure this globally or per user.
+            <ul>
+              <li><i class="fa fa-amazon" aria-hidden="true"></i> Amazon S3</li>
+              <!-- <li><i class="fa fa-dropbox" aria-hidden="true"></i> Dropbox</li> -->
+              <!-- <li><i class="fa fa-google" aria-hidden="true"></i> Google Drive</li> -->
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h3><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Metadata Plugins</h3>
+          <p>
+            The app is able to pull from multiple source of data to find the information you need about your music.
+            <ul>
+              <li>Iguana</li>
+            </ul>
+          </p>
+        </section>
+
+        <h3><i class="fa fa-code" aria-hidden="true"></i> Nerding Out</h3>
+        <p>
+          Of course none of this would be possible without the open source community. Thank you.
+          <ul>
+            <li>Ionic, Electron, and Docker</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

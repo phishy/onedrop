@@ -1,0 +1,30 @@
+mongo:
+  image: mongo
+  volumes:
+    - .:/var/onedrop
+  ports:
+    - "27018:27017"
+api:
+  build: ./api
+  restart: always
+  ports:
+    - "1337:1337"
+  volumes:
+    - .:/var/onedrop
+  links:
+    - mongo
+  environment:
+    DB_HOST: mongo
+    DB_PORT: 27017
+    DB_USER:
+    DB_PASS:
+    DB_NAME: onedrop
+    MUSIC: /var/onedrop/ui/www/music
+    TOKEN_SECRET:
+app:
+  build: .
+  restart: always
+  ports:
+    - "80:8000"
+  volumes:
+      - .:/var/onedrop

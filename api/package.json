@@ -1,0 +1,47 @@
+{
+  "name": "api",
+  "private": true,
+  "version": "1.0.0",
+  "description": "onedrop api",
+  "keywords": [],
+  "dependencies": {
+    "ejs": "2.3.4",
+    "file-exists": "^1.0.0",
+    "grunt": "0.4.5",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-coffee": "0.13.0",
+    "grunt-contrib-concat": "0.5.1",
+    "grunt-contrib-copy": "0.5.0",
+    "grunt-contrib-cssmin": "0.9.0",
+    "grunt-contrib-jst": "0.6.0",
+    "grunt-contrib-less": "1.1.0",
+    "grunt-contrib-uglify": "0.7.0",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-sails-linker": "~0.10.1",
+    "grunt-sync": "0.2.4",
+    "include-all": "~0.1.6",
+    "m3u-parser": "^1.0.3",
+    "mkdirp": "^0.5.1",
+    "node-fetch": "^1.5.2",
+    "rc": "1.0.1",
+    "request": "^2.72.0",
+    "s3": "^4.4.0",
+    "sails": "^0.12.3",
+    "sails-disk": "~0.10.9",
+    "sails-hook-jwt-auth": "^1.0.3",
+    "sails-mongo": "^0.12.0",
+    "sails-nedb": "^0.10.1-a3",
+    "user-home": "^2.0.0"
+  },
+  "scripts": {
+    "debug": "node debug app.js",
+    "start": "node app.js"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/phishy/onedrop.git"
+  },
+  "author": "Jeff Loiselle",
+  "license": ""
+}
