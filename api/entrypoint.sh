@@ -1,6 +1,9 @@
 #!/bin/bash
 
 cd /var/onedrop/api
+npm install --no-progress
+npm install sails -g
+
 # npm install -g node-gyp
 # npm install --no-bin-links --no-progress
 
@@ -10,5 +13,4 @@ cd /var/onedrop/api
   # npm install -no-bin-links --no-progress
 # fi
 
-node app.js
-# ping localhost
+sails lift
