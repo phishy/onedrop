@@ -2,8 +2,6 @@ mongo:
   image: mongo
   volumes:
     - .:/var/onedrop
-  ports:
-    - "27018:27017"
 api:
   build: ./api
   restart: always
@@ -20,7 +18,7 @@ api:
     DB_PASS:
     DB_NAME: onedrop
     MUSIC: /var/onedrop/ui/www/music
-    TOKEN_SECRET:
+    TOKEN_SECRET: no_token
 app:
   build: .
   restart: always

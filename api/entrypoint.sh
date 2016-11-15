@@ -10,5 +10,4 @@ cd /var/onedrop/api
   # npm install -no-bin-links --no-progress
 # fi
 
-node app.js
-# ping localhost
+sails lift
