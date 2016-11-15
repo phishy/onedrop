@@ -1,6 +1,9 @@
 #!/bin/bash
 
 cd /var/onedrop/api
+npm install --no-progress
+npm install sails -g
+
 # npm install -g node-gyp
 # npm install --no-bin-links --no-progress
 
