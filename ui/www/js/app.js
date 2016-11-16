@@ -33,6 +33,15 @@ angular.module('onedrop', Onedrop.modules)
     }
   })
 
+  .state('app.thanks', {
+    url: '/thanks',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/thanks.html',
+      }
+    }
+  })
+
   .state('app.login', {
     url: '/login',
     views: {
