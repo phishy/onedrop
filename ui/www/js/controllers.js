@@ -466,7 +466,7 @@ angular.module('onedrop')
     // @todo stops ionic from remembering login as a history state
       // window.location.href = '/#/app/history';
       // window.location.reload();
-      $state.go('app.search');
+      $state.go('app.explore');
       // $state.go('app.history', {}, { location: 'replace' });
     }, function error(res){
       alert('Unauthorized');
