@@ -1,4 +1,4 @@
-# onedrop
+# onedrop.io
 
 Customizable cross platform music player.
 
@@ -17,7 +17,6 @@ Using browser technology we are able to create one codebase that works on many p
 * Windows
 * Linux
 
-
 ### Build: Web via Docker
 
 * ./build-docker.sh
@@ -28,14 +27,18 @@ Using browser technology we are able to create one codebase that works on many p
 ### Build: iOS
 
 * ./build-ios.sh
-*  Open XCode, add signing team, and then add background permissions
-*  Push it to your phone to test the builds
+* Open XCode, add signing team, and then add background permissions
+* Push it to your phone to test the builds
+* Email: admin@example.com
+* Password: password
 
 ### Build: Android
 
 * ./build-android.sh
 * This will generate an APK than you can install on your phone
 * adb install /path/to/app.apk
+* Email: admin@example.com
+* Password: password
 
 ### Building for Desktop Platform
 
