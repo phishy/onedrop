@@ -43,7 +43,7 @@ angular.module('onedrop')
   return config;
 })
 
-.service('Audio', function($http, Config, store, $cordovaNativeAudio){
+.service('Audio', function($http, Config, store, $ionicLoading){
 
   var self = this;
 
@@ -51,8 +51,14 @@ angular.module('onedrop')
   this.Player.preloadedNextTrack = document.createElement('Audio');
   this.Player.isPlaying = false;
 
+  this.Player.addEventListener('loadstart', function(){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+  });
+
   this.Player.addEventListener('playing', function(){
-    self.Player.isPlaying = true;
+    $ionicLoading.hide();
   });
 
   this.Player.addEventListener('pause', function(){
