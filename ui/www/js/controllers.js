@@ -61,6 +61,16 @@ angular.module('onedrop')
     $ionicLoading.hide();
   });
 
+  this.Player.preloadedNextTrack.addEventListener('loadstart', function(){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+  });
+
+  this.Player.preloadedNextTrack.addEventListener('playing', function(){
+    $ionicLoading.hide();
+  });
+
   this.Player.addEventListener('pause', function(){
     self.Player.isPlaying = false;
   });
@@ -105,7 +115,7 @@ angular.module('onedrop')
 
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $cordovaFile, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $ionicLoading, $timeout) {
 
   $scope.auth = store.get('user');
   $scope.config = Config;
@@ -133,6 +143,16 @@ angular.module('onedrop')
       });
 
       Audio.Player.preloadedNextTrack = document.createElement('Audio');
+
+      Audio.Player.addEventListener('loadstart', function(){
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+      });
+
+      Audio.Player.addEventListener('playing', function(){
+        $ionicLoading.hide();
+      });
 
       Audio.Player.preloadedNextTrack.addEventListener('canplay', function(){
         Audio.Player.preloadedNextTrack.isReady = true;
