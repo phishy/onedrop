@@ -4,15 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <style>
   body {
-    overflow: hidden;
     color: white;
     background: #210074; /* Old browsers */
     background: -moz-linear-gradient(top,  #210074 0%, #9400d8 100%, #207cca 100%, #7db9e8 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #210074 0%,#9400d8 100%,#207cca 100%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  #210074 0%,#9400d8 100%,#207cca 100%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#210074', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+  }
+  li a {
+    color: white;
+    text-decoration: underline;
   }
   @media (max-width: 1000px) {
     body {
@@ -99,10 +103,16 @@
         <iframe src="http://onedrop.io" style="border:1px solid black" frameborder="0" width="400" height="680"></iframe>
       </div>
       <div id="info" class="col-md-7">
+        <style>
+        section > iframe {
+          float:right;
+        }
+        </stylE>
 
         <section id="head">
-          <img id="logo" src="icon.png" width="50px" style="display:none">
-          <h1 id="logo-text">onedrop</h1>
+          <a style="float:right" class="github-button" href="https://github.com/phishy/onedrop" data-icon="octicon-star" data-style="mega" data-count-href="/phishy/onedrop/stargazers" data-count-api="/repos/phishy/onedrop#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star phishy/onedrop on GitHub">Star</a>
+          <img id="logo" src="icon.png" width="50px">
+          <h1 id="logo-text">onedrop</h1> <!-- Place this tag where you want the button to render. -->
           <h4 style="color:#bd98f2">a open source cross-platform HTML5 Audio App</h4>
           <h5>for <i class="fa fa-html5" aria-hidden="true"></i> browsers, <i class="fa fa-apple" aria-hidden="true"></i> iOS, MacOS, <i class="fa fa-android" aria-hidden="true"></i> Android, <i class="fa fa-windows" aria-hidden="true"></i> Windows, and <i class="fa fa-linux" aria-hidden="true"></i> Linux</h5>
           <!-- <hr style="border-top: 1px solid #8a6cd6"> -->
@@ -151,7 +161,7 @@
           <p>
             The app is able to pull from multiple source of data to find the information you need about your music.
             <ul>
-              <li>Iguana</li>
+              <li><a href="https://github.com/alecgorge/iguana">Iguana</a></li>
             </ul>
           </p>
         </section>
@@ -160,11 +170,21 @@
         <p>
           Of course none of this would be possible without the open source community. Thank you.
           <ul>
-            <li>Ionic, Electron, and Docker</li>
+            <li><a href="http://ionicframework.com/">Ionic</a>, <a href="http://electron.atom.io/">Electron</a>, and <a href="https://www.docker.com/">Docker</a></li>
           </ul>
         </p>
       </div>
     </div>
   </div>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37621959-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>
