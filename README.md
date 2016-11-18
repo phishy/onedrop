@@ -43,3 +43,7 @@ Using browser technology we are able to create one codebase that works on many p
 ### Building for Desktop Platform
 
 * There is another repo for building for MacOS, Windows, and Linux. You can find that here. [https://github.com/phishy/onedrop-desktop]()
+
+### Thanks
+
+We would like to thank [BrowserStack](https://www.browserstack.com/) for allowing us to use their service to do our cross-browser testing with amazing ease.
