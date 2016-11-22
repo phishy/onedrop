@@ -10,6 +10,7 @@
  var Promise = require('bluebird');
  var fs = require('fs');
  var os = require('os');
+ var elasticsearch = require('elasticsearch');
 
  function chooseStorageAdapter(setting) {
    var adapter;
@@ -37,6 +38,21 @@
  }
 
 module.exports = {
+  search: function(req, res) {
+    var client = new elasticsearch.Client({
+      host: 'elastic:9200'
+    });
+    client.search({
+      q: req.query.q,
+      from: req.query.from,
+      size: req.query.size
+    }).then(function (body) {
+      var hits = body.hits.hits;
+      res.ok(hits);
+    }, function (err) {
+      res.serverError(err);
+    });
+  },
   fetch: function(req, res) {
 
     Promise.all([

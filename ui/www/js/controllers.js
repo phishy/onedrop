@@ -115,11 +115,19 @@ angular.module('onedrop')
 
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $ionicLoading, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $ionicLoading, $timeout, $state) {
+
+  $scope.$root.data = {
+    query: ''
+  };
 
   $scope.auth = store.get('user');
   $scope.config = Config;
   $scope.track = null;
+
+  $scope.$root.search = function() {
+    $state.go('app.search', { query: $scope.$root.data.query });
+  }
 
   Audio.Player.addEventListener('ended', function(){
     trackEnded();
@@ -451,10 +459,6 @@ angular.module('onedrop')
 
   $scope.data = { query: '' };
 
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
-
   Restangular.all('plays').getList({ sort: '-createdAt'}).then(function(res){
     var plays = [];
     res.forEach(function(play){
@@ -509,10 +513,6 @@ angular.module('onedrop')
   };
 
   MetaManager.resetPage();
-
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
 
   $scope.goAlbum = function(album) {
     $state.go('app.album', { artist: $stateParams.artist, album: album.id });
@@ -572,10 +572,6 @@ angular.module('onedrop')
     artist: null
   };
 
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
-
   if ($stateParams.album) {
     MetaManager.getAlbum($stateParams.album).then(function(res){
       $timeout(function(){
@@ -589,10 +585,6 @@ angular.module('onedrop')
 .controller('LibraryCtrl', function($scope, $state, $http, Audio, Restangular) {
 
   $scope.data = {};
-
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
 
   Restangular.all('tracks').getList().then(function(tracks){
     $scope.artists = [];
@@ -611,10 +603,6 @@ angular.module('onedrop')
 .controller('LibraryArtistCtrl', function($scope, $state, $stateParams, Restangular, $ionicActionSheet) {
 
   $scope.data = {};
-
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
 
   $scope.artist = $stateParams.artist;
 
@@ -641,10 +629,6 @@ angular.module('onedrop')
   $scope.album = $stateParams.album;
 
   $scope.data = {};
-
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
 
   Restangular.all('tracks').getList().then(function(tracks){
     var out = [];
@@ -701,79 +685,81 @@ angular.module('onedrop')
     albums: null
   };
 
-  $scope.search = function() {
-    $state.go('app.search', { query: $scope.data.query });
-  }
-
-  MetaManager.searchArtists().then(function(res){
+  MetaManager.getArtists().then(function(res){
     $timeout(function(){
       $scope.data.artists = res;
     });
   });
 })
 
-.controller('SearchCtrl', function($scope, $state, $stateParams, $http, $ionicPopover, Audio, MetaManager) {
+.controller('SearchCtrl', function($scope, $state, $stateParams, $http, $ionicPopover, Audio, MetaManager, $timeout) {
 
-  $scope.data = {};
+  initialize();
 
-  $scope.doSearch = function() {
-    $scope.data.albums = null;
-    $scope.searchTracks();
-    $scope.searchArtists();
+  function initialize() {
+    if ('query' in $stateParams && $stateParams.query) {
+      $scope.$root.data.query = $stateParams.query;
+      MetaManager.resetPage();
+      MetaManager.searchTracks($scope.$root.data.query).then(function(tracks){
+        $timeout(function(){
+          $scope.data.tracks = tracks;
+          Audio.Playlist.add({ tracks: tracks });
+        });
+      });
+      MetaManager.searchArtists($scope.$root.data.query).then(function(artists){
+        $timeout(function(){
+          $scope.data.artists = artists;
+        });
+      });
+      MetaManager.searchAlbums($scope.$root.data.query).then(function(albums){
+        $timeout(function(){
+          $scope.data.albums = albums;
+        });
+      });
+    }
   }
 
-  $scope.search = function() {
-    $scope.doSearch();
-  }
-
-  $scope.getAlbums = function(item) {
-    Meta.getAlbums(item, function(results){
-      $scope.data.albums = results;
+  $scope.loadMoreTracks = function() {
+    MetaManager.searchTracks($scope.$root.data.query).then(function(results){
+      $timeout(function(){
+        $scope.data.tracks = $scope.data.tracks.concat(results);
+        // $scope.data.albums.forEach(function(album){
+          // album.images[0].url = album.images[0].url || $scope.artist.images[0].url;
+        // });
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
     });
   }
 
-  $scope.searchArtists = function() {
-    MetaManager.searchArtists($scope.data.query).then(function(artists){
-      $scope.data.artists = artists;
-    });
-  }
+  // $scope.doSearch = function() {
+  //   $scope.data.albums = null;
+  //   $scope.searchTracks();
+  //   $scope.searchArtists();
+  // }
 
-  $scope.searchTracks = function() {
-    MetaManager.searchTracks($scope.data.query).then(function(results){
-      $scope.data.tracks = results;
-      Audio.Playlist.add({ tracks: $scope.data.tracks });
-    });
-  }
+  // $scope.search = function() {
+  //   $scope.doSearch();
+  // }
 
-  if ('query' in $stateParams && $stateParams.query) {
-    $scope.data.query = $stateParams.query;
-    $scope.searchTracks();
-    $scope.searchArtists();
-  }
-
-  $ionicPopover.fromTemplateUrl('my-popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
-  $scope.closePopover = function() {
-    $scope.popover.hide();
-  };
-  //Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.popover.remove();
-  });
-  // Execute action on hide popover
-  $scope.$on('popover.hidden', function() {
-    // Execute action
-  });
-  // Execute action on remove popover
-  $scope.$on('popover.removed', function() {
-    // Execute action
-  });
+  // $scope.getAlbums = function(item) {
+  //   Meta.getAlbums(item, function(results){
+  //     $scope.data.albums = results;
+  //   });
+  // }
+  //
+  // $scope.searchArtists = function() {
+  //   MetaManager.searchArtists($scope.data.query).then(function(artists){
+  //     $scope.data.artists = artists;
+  //   });
+  // }
+  //
+  // $scope.searchTracks = function() {
+  //   MetaManager.searchTracks($scope.data.query).then(function(results){
+  //     $timeout(function(){
+  //       $scope.data.tracks = results;
+  //       Audio.Playlist.add({ tracks: $scope.data.tracks });
+  //     });
+  //   });
+  // }
 
 });

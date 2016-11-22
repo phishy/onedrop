@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "ngCordova": "^0.1.27-alpha",
-    "font-awesome": "fontawesome#^4.7.0"
+    "font-awesome": "fontawesome#^4.7.0",
+    "elasticsearch": "^12.1.0"
   },
   "resolutions": {
     "angular": "1.5.3",
