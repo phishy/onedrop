@@ -7,7 +7,22 @@ var ODIguana = Object.assign({
       id: null,
       skip: 0,
       limit: 20
-    }
+    },
+    searchTracks: {
+      from: 0,
+      size: 10,
+      done: false
+    },
+    searchArtists: {
+      from: 0,
+      size: 10,
+      done: false
+    },
+    searchAlbums: {
+      from: 0,
+      size: 10,
+      done: false
+    },
   },
   caches: {
     artists: {},
@@ -51,10 +66,114 @@ var ODIguana = Object.assign({
         id: null,
         skip: 0,
         limit: 20
-      }
+      },
+      searchTracks: {
+        from: 0,
+        size: 10,
+        done: false
+      },
+      searchArtists: {
+        from: 0,
+        size: 10,
+        done: false
+      },
+      searchAlbums: {
+        from: 0,
+        size: 10,
+        done: false
+      },
     };
   },
-  searchArtists: function(q) {
+  searchTracks: function(q) {
+    var self = this;
+    if (self.page.searchTracks.done) return Promise.resolve([]);
+    var url = self.url + '/tracks/search?q=' + q + '&from=' + self.page.searchTracks.from + '&size=' + self.page.searchTracks.size;
+    var tracks = [];
+    var opts = {
+      headers: {
+        accept: 'application/json',
+        authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODE3ZDg4NTllZGU2MmU0ZDExNzY5NmMiLCJpYXQiOjE0Nzg2NTkxMjd9.E_39Xcr_oVYRPZcHRqBGMnRLxyC7HSqDkYuIAccKmRs'
+      }};
+      return this.fetch(url, opts).then(function(res){
+        if (!res.length) {
+          self.page.searchTracks.done = true;
+          return Promise.resolve([]);
+        }
+        self.page.searchTracks.from += self.page.searchTracks.size;
+        res.forEach(function(data){
+          tracks.push({
+            id: data._source.track_id,
+            name: data._source.track_title,
+            url: data._source.file,
+            streamable: true,
+            artist: {
+              name: data._source.artist_name
+            },
+            album: {
+              name: data._source.album_name
+            }
+          });
+        });
+        return tracks;
+      });
+    },
+    searchArtists: function(q) {
+      var self = this;
+      if (self.page.searchTracks.done) return Promise.resolve([]);
+      var url = self.url + '/artists/search?q=' + q + '&from=' + self.page.searchTracks.from + '&size=' + self.page.searchTracks.size;
+      var artists = [];
+      var opts = {
+        headers: {
+          accept: 'application/json',
+          authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODE3ZDg4NTllZGU2MmU0ZDExNzY5NmMiLCJpYXQiOjE0Nzg2NTkxMjd9.E_39Xcr_oVYRPZcHRqBGMnRLxyC7HSqDkYuIAccKmRs'
+        }};
+        return this.fetch(url, opts).then(function(res){
+          if (!res.length) {
+            self.page.searchArtists.done = true;
+            return Promise.resolve([]);
+          }
+          self.page.searchArtists.from += self.page.searchArtists.size;
+          res.forEach(function(data){
+            artists.push({
+              id: data._source.id,
+              name: data._source.name,
+              images: [ { url: data._source.photo } ]
+            });
+          });
+          return artists;
+        });
+      },
+      searchAlbums: function(q) {
+        var self = this;
+        if (self.page.searchAlbums.done) return Promise.resolve([]);
+        var url = self.url + '/albums/search?q=' + q + '&from=' + self.page.searchAlbums.from + '&size=' + self.page.searchAlbums.size;
+        var albums = [];
+        var opts = {
+          headers: {
+            accept: 'application/json',
+            authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ODE3ZDg4NTllZGU2MmU0ZDExNzY5NmMiLCJpYXQiOjE0Nzg2NTkxMjd9.E_39Xcr_oVYRPZcHRqBGMnRLxyC7HSqDkYuIAccKmRs'
+          }};
+          return this.fetch(url, opts).then(function(res){
+            if (!res.length) {
+              self.page.searchAlbums.done = true;
+              return Promise.resolve([]);
+            }
+            self.page.searchAlbums.from += self.page.searchAlbums.size;
+            res.forEach(function(data){
+              albums.push({
+                id: 'iguana:' + data._source.album_id,
+                name: data._source.album_name,
+                artist: {
+                  id: data._source.artist_id,
+                  name: data._source.artist_name
+                },
+                images: [ { url: null } ]
+              });
+            });
+            return albums;
+          });
+        },
+  getArtists: function(q) {
     var self = this;
     if (q) {
       var url = self.url + '/artists?where={"name":{"contains":"' + q + '"}}';
@@ -76,18 +195,6 @@ var ODIguana = Object.assign({
       });
       return artists;
     });
-  },
-  searchTracks: function(q) {
-    return Promise.resolve([]);
-    // var self = this;
-    // var url = self.url + '/search?type=track&q=' + q;
-    // return this.fetch(url).then(function(res){
-    //   var data = [];
-    //   res.tracks.items.forEach(function(track){
-    //     data.push(self.toTrack(track));
-    //   });
-    //   return data;
-    // });
   },
   getArtist: function(id) {
     var self = this;

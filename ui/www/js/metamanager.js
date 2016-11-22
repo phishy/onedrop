@@ -9,6 +9,21 @@ angular.module('onedrop').service('MetaManager', function(){
     });
   }
 
+  this.search = function(q) {
+    var promises = [];
+    var hits = [];
+    Onedrop.meta.forEach(function(meta){
+      promises.push(window[meta.class].search(q).then(function(res){
+        res.forEach(function(hit){
+          hits.push(hit);
+        });
+      }));
+    });
+    return Promise.all(promises).then(function(){
+      return hits;
+    });
+  }
+
   this.searchArtists = function(q) {
     var self = this;
     var artists = [];
@@ -60,6 +75,21 @@ angular.module('onedrop').service('MetaManager', function(){
     });
   }
 
+  this.searchAlbums = function(q) {
+    var promises = [];
+    var albums = [];
+    Onedrop.meta.forEach(function(meta){
+      promises.push(window[meta.class].searchAlbums(q).then(function(res){
+        res.forEach(function(album){
+          albums.push(album);
+        });
+      }));
+    });
+    return Promise.all(promises).then(function(){
+      return albums;
+    });
+  }
+
   // this.getArtist = function(id) {
   //   var self = this;
   //   var artist = null;
@@ -74,6 +104,21 @@ angular.module('onedrop').service('MetaManager', function(){
   //     return artist;
   //   });
   // };
+
+  this.getArtists = function(q) {
+    var promises = [];
+    var artists = [];
+    Onedrop.meta.forEach(function(meta){
+      promises.push(window[meta.class].getArtists(q).then(function(res){
+        res.forEach(function(artist){
+          artists.push(artist);
+        });
+      }));
+    });
+    return Promise.all(promises).then(function(){
+      return artists;
+    });
+  }
 
   this.getAlbums = function(q, reset) {
     var self = this;
