@@ -30,16 +30,16 @@
         <div class="item item-divider">
           Albums
         </div>
-        <div ui-sref="app.album({ artist: album.artist.name, album: album.id })" ng-repeat="album in data.albums" class="item item-thumbnail-left">
-          <img ng-src="{{album.images[0].url}}">
+        <div ui-sref="app.album({ artist: album.artist.name, album: album.id })" ng-repeat="album in data.albums" class="item">
+          <!-- <img ng-src="{{album.images[0].url}}"> -->
           <h3>{{album.name}}</h3>
           <h2>{{album.artist.name}}</h2>
         </div>
         <div class="item item-divider">
           Tracks
         </div>
-        <div ng-click="clickPlay(track, $index)" ng-repeat="track in data.tracks" class="item item-thumbnail-left">
-          <img ng-src="{{track.album.images[0].url}}">
+        <div ng-click="clickPlay(track, $index)" ng-repeat="track in data.tracks" class="item">
+          <!-- <img ng-src="{{track.album.images[0].url}}"> -->
           <h2>{{track.name}}</h2>
           <h3>{{track.album.name}}</h3>
           <p>{{track.artist.name}}</p>
