@@ -110,7 +110,7 @@ var ODIguana = Object.assign({
               name: data._source.artist_name
             },
             album: {
-              id: data._source.album_id,
+              id: 'iguana:' + data._source.album_id,
               name: data._source.album_name
             }
           });
