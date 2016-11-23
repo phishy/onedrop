@@ -2,6 +2,7 @@
 
 cd /var/onedrop/api
 npm install --no-progress
+npm install bcrypt
 npm install sails -g
 
 # npm install -g node-gyp
