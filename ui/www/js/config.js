@@ -5,6 +5,7 @@
  */
 Onedrop = {
   api: null,
+  autologin: false,
   isConfigurable: true,
   meta: [
     { ns: 'iguana', class: 'ODIguana'}

@@ -504,6 +504,10 @@ angular.module('onedrop')
     url: Config.api.url
   };
 
+  if (store.get('user')) {
+    $state.go('app.explore');
+  }
+
   $scope.login = function(data) {
 
     if (data.url) {
