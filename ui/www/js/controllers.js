@@ -188,8 +188,9 @@ angular.module('onedrop')
       // subTitle: 'Please use normal things',
       scope: $scope,
       buttons: [
+        { text: 'Cancel'},
         {
-          text: '<b>Copy</b>',
+          text: '<b>OK</b>',
           type: 'button-positive',
           onTap: function(e) {
             clipboard.copyText($scope.shareUrl);
