@@ -120,8 +120,8 @@ var ODIguana = Object.assign({
     },
     searchArtists: function(q) {
       var self = this;
-      if (self.page.searchTracks.done) return Promise.resolve([]);
-      var url = self.url + '/artists/search?q=' + q + '&from=' + self.page.searchTracks.from + '&size=' + self.page.searchTracks.size;
+      if (self.page.searchArtists.done) return Promise.resolve([]);
+      var url = self.url + '/artists/search?q=' + q + '&from=' + self.page.searchArtists.from + '&size=' + self.page.searchArtists.size;
       var artists = [];
       var opts = {
         headers: {

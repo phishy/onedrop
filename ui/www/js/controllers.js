@@ -181,7 +181,7 @@ angular.module('onedrop')
 
   $scope.share = function() {
     var track = Audio.Playlist.current();
-    $scope.shareUrl = window.location.origin + '/#/app/artist/' + track.artist.name + '/album/' + track.album.id + '?track=' + track.track_number;
+    $scope.shareUrl = window.location.origin + '/#/app/artist/' + track.artist.name + '/album/' + track.album.id + '?track=' + track.id;
     var myPopup = $ionicPopup.show({
       template: '<input type="text" ng-model="shareUrl">',
       title: 'Share',
@@ -602,7 +602,8 @@ angular.module('onedrop')
         $scope.data.album = res;
         Audio.Playlist.add({ tracks: $scope.data.album.tracks });
         if ($stateParams.track) {
-          $scope.shared = $scope.data.album.tracks[$stateParams.track-1];
+          $scope.sharedTrack = _.find($scope.data.album.tracks, { id: parseInt($stateParams.track) });
+          $scope.sharedIndex = _.findIndex($scope.data.album.tracks, { id: parseInt($stateParams.track) });
           var myPopup = $ionicPopup.show({
             templateUrl: 'templates/share.html',
             title: 'Play Track',
@@ -614,7 +615,7 @@ angular.module('onedrop')
                 text: '<b>Play</b>',
                 type: 'button-positive',
                 onTap: function(e) {
-                  $scope.clickPlay($scope.shared, $stateParams.track-1);
+                  $scope.clickPlay($scope.sharedTrack, $stateParams.sharedIndex);
                 }
               }
             ]
