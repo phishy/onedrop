@@ -99,6 +99,9 @@ angular.module('onedrop')
       }
       return false;
     },
+    current: function() {
+      return this._current.tracks[this._current.index];
+    },
     next: function() {
       if (this._current.index != this._current.tracks.length) {
         ++this._current.index;
@@ -115,7 +118,7 @@ angular.module('onedrop')
 
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $ionicLoading, $timeout, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, cfpLoadingBar, store, Config, Audio, $ionicLoading, $ionicPopup, $timeout, $state, clipboard) {
 
   $scope.$root.data = {
     query: ''
@@ -174,6 +177,26 @@ angular.module('onedrop')
     //   var track = Audio.Playlist.next();
     //   if (track) $scope.play(track);
     // }
+  }
+
+  $scope.share = function() {
+    var track = Audio.Playlist.current();
+    $scope.shareUrl = window.location.origin + '/#/app/artist/' + track.artist.name + '/album/' + track.album.id + '?track=' + track.track_number;
+    var myPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="shareUrl">',
+      title: 'Share',
+      // subTitle: 'Please use normal things',
+      scope: $scope,
+      buttons: [
+        {
+          text: '<b>Copy</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            clipboard.copyText($scope.shareUrl);
+          }
+        }
+      ]
+    });
   }
 
   $scope.clickPlay = function(track, index) {
@@ -565,7 +588,7 @@ angular.module('onedrop')
   }
 })
 
-.controller('AlbumCtrl', function($scope, $state, $stateParams, $http, Audio, MetaManager, $timeout){
+.controller('AlbumCtrl', function($scope, $state, $stateParams, $http, Audio, MetaManager, $timeout, $ionicPopup){
 
   $scope.data = {
     album: null,
@@ -577,6 +600,25 @@ angular.module('onedrop')
       $timeout(function(){
         $scope.data.album = res;
         Audio.Playlist.add({ tracks: $scope.data.album.tracks });
+        if ($stateParams.track) {
+          $scope.shared = $scope.data.album.tracks[$stateParams.track-1];
+          var myPopup = $ionicPopup.show({
+            templateUrl: 'templates/share.html',
+            title: 'Play Track',
+            subTitle: 'Sharing is caring',
+            scope: $scope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Play</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                  $scope.clickPlay($scope.shared, $stateParams.track-1);
+                }
+              }
+            ]
+          });
+        }
       });
     });
   }

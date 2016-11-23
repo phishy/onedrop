@@ -4,7 +4,8 @@ var modules =  [
   'cfp.loadingBar',
   'angular-storage',
   'restangular',
-  'ngCordova'
+  'ngCordova',
+  'angular-clipboard'
 ];
 
 Onedrop.modules = Onedrop.modules.concat(modules);
@@ -126,7 +127,7 @@ angular.module('onedrop', Onedrop.modules)
   })
 
   .state('app.album', {
-    url: '/artist/:artist/album/:album',
+    url: '/artist/:artist/album/:album?track',
     views: {
       'menuContent': {
         controller: 'AlbumCtrl',
