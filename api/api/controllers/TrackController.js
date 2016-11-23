@@ -44,6 +44,7 @@ module.exports = {
     });
     client.search({
       q: req.query.q,
+      type: 'track',
       from: req.query.from,
       size: req.query.size
     }).then(function (body) {
