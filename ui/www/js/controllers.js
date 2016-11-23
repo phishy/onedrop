@@ -88,7 +88,11 @@ angular.module('onedrop')
     _playlists: {},
     add: function(opts) {
       var name = opts.name || window.location.hash;
-      this._playlists[name] = { index: 0, tracks: opts.tracks };
+      if (name in this._playlists && this._playlists[name].tracks.length) {
+        this._playlists[name].tracks = this._playlists[name].tracks.concat(opts.tracks);
+      } else {
+        this._playlists[name] = { index: 0, tracks: opts.tracks };
+      }
     },
     load: function() {
       this._current = this._playlists[window.location.hash];
@@ -767,6 +771,7 @@ angular.module('onedrop')
     MetaManager.searchTracks($scope.$root.data.query).then(function(results){
       $timeout(function(){
         $scope.data.tracks = $scope.data.tracks.concat(results);
+        Audio.Playlist.add({ tracks: results });
         // $scope.data.albums.forEach(function(album){
           // album.images[0].url = album.images[0].url || $scope.artist.images[0].url;
         // });
