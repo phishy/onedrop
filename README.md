@@ -24,6 +24,15 @@ Using browser technology we are able to create one codebase that works on many p
 * Email: admin@example.com
 * Password: password
 
+### Build: MacOS
+
+* ./build-macos.sh
+* npm start packageMac
+* cd onedrop-darwin-64/
+* open onedrop.app
+* Email: admin@example.com
+* Password: password
+
 ### Build: iOS
 
 * ./build-ios.sh
@@ -39,10 +48,6 @@ Using browser technology we are able to create one codebase that works on many p
 * adb install /path/to/app.apk
 * Email: admin@example.com
 * Password: password
-
-### Building for Desktop Platform
-
-* There is another repo for building for MacOS, Windows, and Linux. You can find that here. [https://github.com/phishy/onedrop-desktop]()
 
 ### Thanks
 
