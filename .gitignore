@@ -1,7 +1,9 @@
 .DS_Store
 node_modules
 docker-compose.yml
+onedrop-darwin-x64
 *.mp3
+ui/res
 ui/www/lib/
 ui/plugins/
 ui/resources/ios
