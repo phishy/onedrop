@@ -1,15 +1,15 @@
-(function (root, factory) {
-    /* istanbul ignore next */
-    if (typeof define === 'function' && define.amd) {
-        define(['angular'], factory);
-    } else if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('angular'));
-    } else {
-        root.angularClipboard = factory(root.angular);
-  }
-}(this, function (angular) {
+// (function (root, factory) {
+//     /* istanbul ignore next */
+//     if (typeof define === 'function' && define.amd) {
+//         define(['angular'], factory);
+//     } else if (typeof module === 'object' && module.exports) {
+//         module.exports = factory(require('angular'));
+//     } else {
+//         root.angularClipboard = factory(root.angular);
+//   }
+// }(this, function (angular) {
 
-return angular.module('angular-clipboard', [])
+angular.module('angular-clipboard', [])
     .factory('clipboard', ['$document', '$window', function ($document, $window) {
         function createNode(text, context) {
             var node = $document[0].createElement('textarea');
@@ -79,4 +79,4 @@ return angular.module('angular-clipboard', [])
         };
     }]);
 
-}));
+// }));

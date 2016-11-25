@@ -1,0 +1,25 @@
+{
+  "name": "onedrop",
+  "version": "1.0.0",
+  "description": "Customizable cross platform music player.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildWin": "electron-packager ./ -all --version 1.4.5 --icon icon.ico",
+    "buildMac": "touch onedrop-darwin-x64 && rm -rf onedrop-darwin-x64 && electron-packager . --version=1.4.5 --ignore=screenshot_splash.png --ignore=icon.icns --ignore=app/ui/resources --ignore=app/api/ffmpeg --icon=icon.icns --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phishy/onedrop.git"
+  },
+  "author": "jeff@loiselles.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phishy/onedrop/issues"
+  },
+  "homepage": "https://github.com/phishy/onedrop#readme",
+  "dependencies": {
+    "local-web-server": "^1.2.6"
+  }
+}
