@@ -1,10 +1,8 @@
-# onedrop.io
+# [onedrop.io](http://onedrop.io/info.html)
 
-Customizable cross platform music player.
+Customizable cross platform music player. You can view the demo [here](http://onedrop.io/info.html).
 
-You can view the demo [here](http://onedrop.io/info.html).
-
-![image](screenshot_splash.png)
+![image](README_shots.png)
 
 ### Works On Many Platforms
 
